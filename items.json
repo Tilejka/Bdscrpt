@@ -1,0 +1,35 @@
+[
+  {
+    "model": "items.item",
+    "pk": 1,
+    "fields": {
+      "name": "Mana Potion",
+      "description": "A faint blue light radiates from this vial of blue fluid, like an aura of magical light. Crafted from the unstable, refined essence of mana crystals, these potions can recharge a magic wielder's spell slot, the level or which is determined by the type of potion. However, due to the recent discovery of mana refining, these potions can be highly unstable, occasionally dealing psychic damage to those who consume it.",
+      "quality": 3,
+      "image": "items_images/Mana_pot.jpg",
+      "category": 1
+    }
+  },
+  {
+    "model": "items.item",
+    "pk": 2,
+    "fields": {
+      "name": "Book Of Knowledge",
+      "description": "A large book made of a strange material that seems to call to you asking for you to share your knowledge in exchange for its knowledge.",
+      "quality": 5,
+      "image": "items_images/Book_of_knowledge.jpg",
+      "category": 2
+    }
+  },
+  {
+    "model": "items.item",
+    "pk": 3,
+    "fields": {
+      "name": "Chromatus Watch",
+      "description": "This old, unadorned pocket watch looks mundane, but it holds massive magical potential. It is believed this watch was given to humans by a long forgotten chaotic primordial being that controlled time.",
+      "quality": 3,
+      "image": "items_images/Chromatus_Watch.jpg",
+      "category": 2
+    }
+  }
+]

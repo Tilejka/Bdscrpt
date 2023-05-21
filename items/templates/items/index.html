@@ -1,0 +1,29 @@
+{% extends 'items/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'vendor/css/index.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <section>
+        <!--    <div class="alert alert-light text-center" role="alert">-->
+        <!--        Информационное сообщение-->
+        <!--    </div>-->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h1 class="mt-5 text-white">Descriptions</h1>
+                    <p class="text-white">Погрузитесь в мир прекрасных описаний различных существ, заклинаний, миров и событий.
+                        Отправтесь в мир фантазии и воображения вместе с нами!
+                    </p>
+                    <button type="button" class="btn btn-outline-light">
+                        <a id="start-purchase-link" href="{% url 'items:index' %}">
+                            Start exploring!
+                        </a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

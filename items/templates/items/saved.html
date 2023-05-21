@@ -1,0 +1,122 @@
+{% extends 'items/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'vendor/css/products.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+
+            <form action="{% url 'items:saved' %}" method="get">
+                {% if user.is_authenticated %}
+                    <div class="col-lg-3">
+                        <h1 class="my-4">Favourites</h1>
+                            <li class="editContent">
+                                <input type="checkbox" class="checked" name="favourites" value="True">
+                                <span class="span editContent">favourites</span>
+                            </li>
+                    </div>
+                {% endif %}
+
+                <div class="col-lg-3">
+                    <h1 class="my-4">Browse</h1>
+                        {% for category in categories %}
+                            <li class="editContent">
+                                <input type="checkbox" class="checked" name="category" value="{{ category.id }}">
+                                <span class="span editContent">
+                                    {{ category.name }}
+                                </span>
+                            </li>
+                        {% endfor %}
+                </div>
+            <button type="submit">Search</button>
+            </form>
+
+            <!-- /.col-lg-3 -->
+            <div class="col-lg-9">
+
+                <div class="row">
+                    {% for item in posts %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <a href="{% url 'items:item' item.id %}">
+                                    <img class="card-img-top"
+                                         src="{{ item.image.url }}"
+                                         alt="">
+                                </a>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="{% url 'items:item' item.id %}">{{ item.name }}</a>
+                                    </h4>
+                                    <h5>{{ item.quality }}</h5>
+                                    <p class="card-text">{{ item.description|truncatechars:98 }}</p>
+                                </div>
+                                {% if user.is_authenticated %}
+                                    <div class="card-footer text-center">
+                                        <a class="btn btn-outline-success"
+                                           href="{% url 'items:favourite_item' item.id %}">
+                                            {% if user not in item.favourite.all %}
+                                                Add Item
+                                            {% else %}
+                                                Delete Item
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                    {% else %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+
+
+    {% if posts.has_other_pages %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% if posts.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ posts.previous_page_number }}{{ filters }}" tabindex="-1">
+                    <i class="fa fa-angle-left"></i>
+                    <span class="sr-only">Prev</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="javascript:void(0)" tabindex="-1">
+                    <i class="fa fa-angle-left"></i>
+                    <span class="sr-only">Prev</span>
+                </a>
+            </li>
+            {% endif %}
+            {% for i in posts.paginator.page_range %}
+            {% if posts.number == i %}
+                <li class="page-item active"><a class="page-link" href="javascript:void(0)">{{ i }}</a></li>
+            {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}{{ filters }}">{{ i }}</a></li>
+
+
+            {% endif %}
+            {% endfor %}
+            {% if posts.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ posts.next_page_number }}{{ filters }}">
+                    <i class="fa fa-angle-right"></i>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="javascript:void(0)">
+                    <i class="fa fa-angle-right"></i>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+{% endblock %}
+

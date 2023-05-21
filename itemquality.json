@@ -1,0 +1,37 @@
+[
+  {
+    "model": "items.quality",
+    "pk": 1,
+    "fields": {
+      "name": "Common"
+    }
+  },
+  {
+    "model": "items.quality",
+    "pk": 2,
+    "fields": {
+      "name": "Uncommon"
+    }
+  },
+  {
+    "model": "items.quality",
+    "pk": 3,
+    "fields": {
+      "name": "Rare"
+    }
+  },
+  {
+    "model": "items.quality",
+    "pk": 4,
+    "fields": {
+      "name": "Epic"
+    }
+  },
+  {
+    "model": "items.quality",
+    "pk": 5,
+    "fields": {
+      "name": "Legendary"
+    }
+  }
+]

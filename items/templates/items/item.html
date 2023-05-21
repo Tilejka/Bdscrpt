@@ -1,0 +1,50 @@
+{% extends 'items/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'vendor/css/products.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100">
+                <a href="{% url 'items:item' item.slug %}">
+                    <img class="card-img-top"
+                         src="{{ item.image.url }}"
+                         alt="">
+                </a>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="{% url 'items:item' item.slug %}">{{ item.name }}</a>
+                    </h4>
+                    <h5>{{ item.quality }}</h5>
+                    <p class="card-text">{{ item.description }}</p>
+                </div>
+                {% if user.is_authenticated %}
+                    <div class="card-footer text-center">
+                        <a class="btn btn-outline-success"
+                           href="{% url 'items:favourite_item' item.slug %}">
+                            {% if user not in item.favourite.all %}
+                                Add Item
+                            {% else %}
+                                Delete Item
+                            {% endif %}
+                        </a>
+                    </div>
+                    {% else %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+
+    <footer class="bg-light text-center text-lg-start">
+      <div class="text-center p-3" style="background-color: #343a40;">
+        <p class="m-0 text-center text-white">Copyright &copy; Store 2022</p>
+      </div>
+    </footer>
+
+{% endblock %}
