@@ -44,3 +44,13 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    post = models.ForeignKey('Item', on_delete=models.CASCADE)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.user.username

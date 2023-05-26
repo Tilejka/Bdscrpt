@@ -1,9 +1,12 @@
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
-from django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView, View
 from django.views.generic.list import ListView
 
+from hitcount.views import HitCountDetailView
+
 from items.models import Item, ItemCategory, Quality
+from items.forms import CommentForm
 
 
 class IndexView(TemplateView):
@@ -53,15 +56,22 @@ class ItemsListView(ListView):
         return queryset.order_by('name')
 
 
-def item(request, item_slug):
-    item = get_object_or_404(Item, slug=item_slug)
+# def item(request, item_slug):
+#     item = get_object_or_404(Item, slug=item_slug)
+#
+#     context = {
+#         'title': item.name,
+#         'item': item
+#     }
+#
+#     return render(request, 'items/item.html', context=context)
 
-    context = {
-        'title': item.name,
-        'item': item
-    }
 
-    return render(request, 'items/item.html', context=context)
+class ItemDetailView(HitCountDetailView):
+    model = Item
+    template_name = 'items/item.html'
+    slug_field = 'slug'
+    count_hit = True
 
 
 @login_required
