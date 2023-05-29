@@ -1,11 +1,12 @@
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from django.views.generic.base import TemplateView, View
 from django.views.generic.list import ListView
 
 from hitcount.views import HitCountDetailView
 
-from items.models import Item, ItemCategory, Quality
+from items.models import Item, ItemCategory, Quality, Comment
 from items.forms import CommentForm
 
 
@@ -72,6 +73,29 @@ class ItemDetailView(HitCountDetailView):
     template_name = 'items/item.html'
     slug_field = 'slug'
     count_hit = True
+
+    form = CommentForm
+
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            post = self.get_object()
+            form.instance.user = request.user
+            form.instance.post = post
+            form.save()
+
+            return redirect(reverse('items:item', kwargs={
+                'slug': post.slug
+            }))
+
+    def get_context_data(self, **kwargs):
+        post_comments = Comment.objects.all().filter(post=self.object.id)
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'form': self.form,
+            'post_comments': post_comments,
+        })
+        return context
 
 
 @login_required
