@@ -1,6 +1,8 @@
 {% extends 'items/base.html' %}
 {% load static %}
 {% load hitcount_tags %}
+{% load rating_tags %}
+
 
 {% block css %}
     <link href="{% static 'vendor/css/products.css' %}" rel="stylesheet">
@@ -34,6 +36,21 @@
                             {% endif %}
                         </a>
                     </div>
+
+
+                <div class="card-body">
+                    <p>{% render_rating_import %}
+
+                    {% render_rating request=request obj=item settings_slug='default-config' %}
+
+                    {% render_rating_info request=request obj=item settings_slug='default-config' %}
+
+                    {% render_rating request=request obj=item settings_slug='like-config' %}
+
+                    {% render_rating_script %}</p>
+                </div>
+
+
         {% endif %}
             </div>
         <br>

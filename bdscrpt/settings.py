@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'hitcount',
+    'rating.apps.RatingConfig',
 
     'items',
     'users',
