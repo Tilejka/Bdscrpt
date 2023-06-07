@@ -1,8 +1,5 @@
 from django.db import models
 
-from django.contrib.contenttypes.fields import GenericRelation
-from rating.models import Rating
-
 from users.models import User
 
 
@@ -40,7 +37,6 @@ class Item(models.Model):
     category = models.ForeignKey(to=ItemCategory, on_delete=models.CASCADE)
     created_timestamp = models.DateTimeField(auto_now_add=True)
     favourite = models.ManyToManyField(to=User, related_name='favourite', blank=True)
-    ratings = GenericRelation(Rating)
 
     class Meta:
         verbose_name = 'item'

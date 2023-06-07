@@ -1,11 +1,12 @@
 {% extends 'items/base.html' %}
 {% load static %}
 {% load hitcount_tags %}
-{% load rating_tags %}
 
 
 {% block css %}
     <link href="{% static 'vendor/css/products.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+    <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -38,17 +39,6 @@
                     </div>
 
 
-                <div class="card-body">
-                    <p>{% render_rating_import %}
-
-                    {% render_rating request=request obj=item settings_slug='default-config' %}
-
-                    {% render_rating_info request=request obj=item settings_slug='default-config' %}
-
-                    {% render_rating request=request obj=item settings_slug='like-config' %}
-
-                    {% render_rating_script %}</p>
-                </div>
 
 
         {% endif %}
@@ -57,6 +47,12 @@
             <div class="single-form-center">
                 <!-- contact form grid -->
                 <div class="contact-single">
+
+                                    <p>
+                        {% load ratings %}
+                        {% ratings object %}
+                    </p>
+
                     <h3 class="editContent" style="outline: none; cursor: inherit;">
                                     <span class="sub-tittle editContent" style="outline: none; cursor: inherit;"></span>
                         Comments({{ post_comments_count }})

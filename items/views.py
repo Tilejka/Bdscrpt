@@ -22,7 +22,7 @@ class IndexView(TemplateView):
 class ItemsListView(ListView):
     model = Item
     template_name = 'items/items.html'
-    paginate_by = 2
+    paginate_by = 3
     context_object_name = 'items'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -55,17 +55,6 @@ class ItemsListView(ListView):
         if 'quality' in self.request.GET:
             queryset = queryset.filter(quality__slug__in=self.request.GET.getlist('quality'))
         return queryset.order_by('name')
-
-
-# def item(request, item_slug):
-#     item = get_object_or_404(Item, slug=item_slug)
-#
-#     context = {
-#         'title': item.name,
-#         'item': item
-#     }
-#
-#     return render(request, 'items/item.html', context=context)
 
 
 class ItemDetailView(HitCountDetailView):

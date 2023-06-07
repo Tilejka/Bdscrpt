@@ -25,7 +25,7 @@ urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('items/', include('items.urls', namespace='items')),
     path('users/', include('users.urls', namespace='users')),
-    path('rating/', include('rating.urls')),
+    path('ratings/', include('star_ratings.urls', namespace='ratings')),
 ]
 
 if settings.DEBUG:
