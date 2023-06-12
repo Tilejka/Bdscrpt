@@ -22,7 +22,7 @@ class IndexView(TemplateView):
 class ItemsListView(ListView):
     model = Item
     template_name = 'items/items.html'
-    paginate_by = 2
+    paginate_by = 3
     context_object_name = 'items'
 
     def get_context_data(self, *, object_list=None, **kwargs):
