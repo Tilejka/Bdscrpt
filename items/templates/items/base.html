@@ -26,7 +26,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'index' %}">Descriptions</a>
+        <a class="navbar-brand" href="{% url 'index' %}">Landing</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -34,7 +34,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'items:index' %}">Start <i class="fas fa-shopping-bag"></i> </a>
+                    <a class="nav-link" href="{% url 'items:index' %}">Items <i class="fas fa-shopping-bag"></i> </a>
                 </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
@@ -46,7 +46,7 @@
                         <li>
                             <a class="dropdown-item" href="{% url 'users:profile' %}">Profile</a>
                         </li>
-                        <li><a class="dropdown-item" href="orders/orders.html">Заказы</a></li>
+                        <li><a class="dropdown-item" href="orders/orders.html">Orders?</a></li>
                         {% if user.is_superuser or user.is_staff %}
                             <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin-panel</a></li>
                         {% endif %}

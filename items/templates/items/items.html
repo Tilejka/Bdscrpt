@@ -11,36 +11,51 @@
 
             <form action="{% url 'items:index' %}" method="get">
 
-                <h1 class="my-4">Search</h1>
-                <div class="input-group">
-                    <input type="search" name="keywords" class="form-control">
-                </div>
+
+                    <h1 class="my-3">Search</h1>
+                    <div class="input-group">
+                        <input type="search" name="keywords" class="form-control">
+                    </div>
 
 
                 {% if user.is_authenticated %}
-                    <div class="col-lg-3">
-                        <h1 class="my-4">Favourites</h1>
+
                             <li class="editContent">
                                 <input type="checkbox" class="checked" name="favourites" value="True">
                                 <span class="span editContent">favourites</span>
                             </li>
-                    </div>
+
                 {% endif %}
 
+
                 <div class="col-lg-3">
-                    <h1 class="my-4">Category</h1>
-                        {% for category in categories %}
-                            <li class="editContent">
-                                <input type="checkbox" class="checked" name="category" value="{{ category.slug }}">
-                                <span class="span editContent">
-                                    {{ category.name }}
-                                </span>
-                            </li>
-                        {% endfor %}
+                    <div class="dropdown">
+                      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Categories
+                      </a>
+
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+                          {% for category in categories %}
+                          <li class="editContent">
+                                    <input type="checkbox" class="checked" name="category" value="{{ category.slug }}">
+                                    <span class="span editContent">
+                                        {{ category.name }}
+                                    </span>
+                                </li>
+                          {% endfor %}
+
+                      </div>
+                    </div>
                 </div>
 
                 <div class="col-lg-3">
-                    <h1 class="my-4">Quality</h1>
+                    <div class="dropdown">
+                      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Quality
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
                         {% for quality in qualities %}
                             <li class="editContent">
                                 <input type="checkbox" class="checked" name="quality" value="{{ quality.slug }}">
@@ -49,8 +64,9 @@
                                 </span>
                             </li>
                         {% endfor %}
+                      </div>
+                    </div>
                 </div>
-
 
             <button type="submit">Search</button>
             </form>
@@ -65,13 +81,14 @@
                     </ol>
                     <div class="carousel-inner" role="listbox">
                         <div class="carousel-item active">
-                            <img class="d-block img-fluid" src="{% static 'vendor/img/slides/slide-1.jpg' %}" alt="First slide">
+                            <img class="d-block img-fluid" src="{% static 'vendor/img/slides/slide-1.jpg' %}" style="border-radius: 0.5%" alt="First slide">
+
                         </div>
                         <div class="carousel-item">
-                            <img class="d-block img-fluid" src="{% static 'vendor/img/slides/slide-2.jpg' %}" alt="Second slide">
+                            <img class="d-block img-fluid" src="{% static 'vendor/img/slides/slide-2.jpg' %}" style="border-radius: 0.5%" alt="Second slide">
                         </div>
                         <div class="carousel-item">
-                            <img class="d-block img-fluid" src="{% static 'vendor/img/slides/slide-3.jpg' %}" alt="Third slide">
+                            <img class="d-block img-fluid" src="{% static 'vendor/img/slides/slide-3.jpg' %}" style="border-radius: 0.5%" alt="Third slide">
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
