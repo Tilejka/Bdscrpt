@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'rating.apps.RatingConfig',
 
     'items',
+    'worlds',
     'users',
+
 ]
 
 MIDDLEWARE = [

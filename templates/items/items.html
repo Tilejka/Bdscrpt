@@ -5,68 +5,6 @@
     <div class="container">
         <div class="row">
 
-            <form action="{% url 'items:index' %}" method="get">
-
-
-                    <h1 class="my-3">Search</h1>
-                    <div class="input-group">
-                        <input type="search" name="keywords" class="form-control">
-                    </div>
-
-
-                {% if user.is_authenticated %}
-
-                            <li class="editContent">
-                                <input type="checkbox" class="checked" name="favourites" value="True">
-                                <span class="span editContent">favourites</span>
-                            </li>
-
-                {% endif %}
-
-
-                <div class="col-lg-3">
-                    <div class="dropdown">
-                      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Categories
-                      </a>
-
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-
-                          {% for category in categories %}
-                          <li class="editContent">
-                                    <input type="checkbox" class="checked" name="category" value="{{ category.slug }}">
-                                    <span class="span editContent">
-                                        {{ category.name }}
-                                    </span>
-                                </li>
-                          {% endfor %}
-
-                      </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3">
-                    <div class="dropdown">
-                      <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Quality
-                      </a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-
-                        {% for quality in qualities %}
-                            <li class="editContent">
-                                <input type="checkbox" class="checked" name="quality" value="{{ quality.slug }}">
-                                <span class="span editContent">
-                                    {{ quality.name }}
-                                </span>
-                            </li>
-                        {% endfor %}
-                      </div>
-                    </div>
-                </div>
-
-            <button type="submit">Search</button>
-            </form>
-
             <!-- /.col-lg-3 -->
             <div class="col-lg-9">
                 <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">

@@ -1,5 +1,13 @@
 {% load static %}
 
+
+<link rel="stylesheet" href="{% static "vendor/bootstrap/css/bootstrap.css" %}">
+{#<link href="{% static "vendor/css/search-filter.css" %}" rel="stylesheet">#}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
@@ -8,10 +16,84 @@
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
+
+<!-- Search -->
+
+    <form action="{% url 'items:index' %}" method="get">
+
+        <div class="container">
+          <div class="row searchFilter" >
+             <div class="col-sm-12" >
+              <div class="input-group" >
+               <input id="table_filter" type="text" name="keywords" class="form-control" aria-label="Text input with segmented button dropdown" >
+               <div class="input-group-btn" >
+
+
+               <div class="btn-group">
+                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Category
+                  </button>
+
+
+                  <div class="dropdown-menu">
+                    {% if user.is_authenticated %}
+                        <li class="editContent">
+                            <input type="checkbox" class="checked" name="favourites" value="True">
+                            <span class="span editContent">Favourites</span>
+                        </li>
+                    {% endif %}
+
+                  {% for category in categories %}
+                          <li class="editContent">
+                            <input type="checkbox" class="checked" name="category" value="{{ category.slug }}">
+                            <span class="span editContent">
+                                {{ category.name }}
+                            </span>
+                          </li>
+                 {% endfor %}
+
+                  </div>
+                </div>
+
+
+
+                <div class="btn-group">
+                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Quality
+                  </button>
+                  <div class="dropdown-menu">
+
+                        {% for quality in qualities %}
+                            <li class="editContent">
+                                <input type="checkbox" class="checked" name="quality" value="{{ quality.slug }}">
+                                <span class="span editContent">
+                                    {{ quality.name }}
+                                </span>
+                            </li>
+                        {% endfor %}
+
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-secondary btn-search"><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon">Search</span></button>
+
+
+               </div>
+              </div>
+             </div>
+          </div>
+        </div>
+
+    </form>
+
+
+
+
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'items:index' %}">Items <i class="fas fa-shopping-bag"></i> </a>
+                    <a class="nav-link" href="{% url 'items:index' %}">Items</a>
                 </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
@@ -46,3 +128,5 @@
         </div>
     </div>
 </nav>
+<br>
+<br>
