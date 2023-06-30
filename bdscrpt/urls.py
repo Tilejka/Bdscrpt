@@ -20,10 +20,12 @@ from django.conf import settings
 
 from items.views import IndexView
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='index'),
     path('items/', include('items.urls', namespace='items')),
+    path('worlds/', include('worlds.urls', namespace='worlds')),
     path('users/', include('users.urls', namespace='users')),
     path('rating/', include('rating.urls')),
 ]

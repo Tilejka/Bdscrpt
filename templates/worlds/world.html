@@ -1,0 +1,104 @@
+{% extends 'worlds/base.html' %}
+{% load static %}
+{% load hitcount_tags %}
+{% load rating_tags %}
+
+
+
+{% block content %}
+    <div class="container">
+        <br>
+        <div class="col-lg-6" style="float:none;margin:auto;">
+            <div class="card h-100">
+                <a href="{% url 'worlds:world' world.slug %}">
+                    <img class="card-img-top"
+                         src="{{ world.image.url }}"
+                         alt="">
+                </a>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="{% url 'worlds:world' world.slug %}">{{ world.name }}</a>
+                    </h4>
+                    <h5>{{ world.world_type }}</h5>
+                    <p class="card-text">{{ world.description }}</p>
+                </div>
+
+        {% if user.is_authenticated %}
+            <div class="card-footer text-center">
+                <a class="btn btn-outline-success"
+                   href="{% url 'worlds:fav_world' world.slug %}">
+                    {% if user not in world.fav_world.all %}
+                        Add World
+                    {% else %}
+                        Delete World
+                    {% endif %}
+                </a>
+            </div>
+        {% endif %}
+
+                <div class="card-body">
+                    <p>{% render_rating_import %}
+
+                    {% render_rating request=request obj=world settings_slug='default-config' %}
+
+                    {% render_rating_info request=request obj=world settings_slug='default-config' %}
+
+
+
+                    {% render_rating_script %}</p>
+                </div>
+
+
+            </div>
+        <br>
+            <div class="single-form-center">
+                <!-- contact form grid -->
+                <div class="contact-single">
+                    <h3 class="editContent" style="outline: none; cursor: inherit;">
+                                    <span class="sub-tittle editContent" style="outline: none; cursor: inherit;"></span>
+                        Comments({{ post_comments_count }})
+                    </h3>
+                    <p>{{ world.created_timestamp }} | {{ world.world_type }} | {% get_hit_count for world %} hits</p>
+
+                    <div class="media-list">
+                        {% for comment in post_comments %}
+                            <div>
+                                <img  width="50" height="50" src="
+                                    {% if comment.user.image %}
+                                        {{ comment.user.image.url }}
+                                    {% else %}
+                                        {% static 'vendor/img/users/default_avatar.jpg' %}
+                                    {% endif %}" alt="Avatar">
+
+                                <div class="media-body">
+                                    <div class="small-1">
+                                        <b> {{ comment.user }}</b>
+                                        <time class="ml-4 opaciy-70 small-3"> {{ comment.date }}</time>
+                                    </div>
+                                    <p> {{ comment.content }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                {% if user.is_authenticated %}
+
+                    <form method="POST" action="{% url 'worlds:world' world.slug %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                                    {{ form.as_p }}
+                        </div>
+                        <button class="btn btn-primary btn-block " type="submit">Comment</button>
+                    </form>
+
+                {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+                <!--  //contact form grid ends here -->
+
+    {% include 'partials/_footer.html' %}
+
+{% endblock %}
