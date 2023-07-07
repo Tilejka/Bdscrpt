@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load static %}
 
 
@@ -7,21 +8,18 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{% static 'static/css/all.css' %}">
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.css' %}">
-    <!-- Custom -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <!-- Lightbox -->
-    <link rel="stylesheet" href="{% static 'css/lightbox.min.css' %}">
+    <link rel="stylesheet" href="{% static "css/pico/pico.min.css" %}">
+
+{#<link rel="stylesheet" href="{% static "vendor/bootstrap/css/bootstrap.css" %}">#}
+<link href="{% static "vendor/css/search-filter.css" %}" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
 
     <title>{{ title }}</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     {% block css %} {% endblock %}
@@ -32,6 +30,8 @@
 
     <!-- Navigation -->
     {% include 'partials/_navbar.html' %}
+
+    <main class="container">
     <!-- Page Content -->
     {% block content %}  {% endblock %}
     <!-- Footer -->
@@ -45,7 +45,7 @@
 
     <!-- FontAwesome script -->
     <script src="{% static 'vendor/fontawesome/fontawesome-icons.js' %}" crossorigin="anonymous"></script>
-
+    </main>
 </body>
 
 </html>

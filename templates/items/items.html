@@ -5,6 +5,103 @@
     <div class="container">
         <div class="row">
 
+        <div class="col-lg-3">
+
+                <h1 class="my-4">Items</h1>
+                <div class="list-group">
+                    <form action="{% url 'items:index' %}" method="get">
+
+        <div class="container">
+          <div class="row searchFilter" >
+             <div class="col-sm-12" >
+              <div class="input-group" >
+               <input id="table_filter" type="text" name="keywords" class="form-control" aria-label="Text input with segmented button dropdown">
+               <div class="input-group-btn">
+
+               <input type="search" id="search" name="search" placeholder="Search">
+
+                    <details role="list">
+                      <summary aria-haspopup="listbox">Category</summary>
+                      <ul role="listbox">
+                    {% if user.is_authenticated %}
+                      <li>
+                          <label>
+                            <input type="checkbox" name="favourites" value="True">
+                            Favourites
+                          </label>
+                      </li>
+                    {% endif %}
+
+                        {% for category in categories %}
+                          <li>
+                              <label>
+                                <input type="checkbox" name="category" value="{{ category.slug }}">
+                                  {{ category.name }}
+                              </label>
+                          </li>
+                        {% endfor %}
+
+                      </ul>
+                    </details>
+
+
+
+                    <details role="list">
+                      <summary aria-haspopup="listbox">Quality</summary>
+                      <ul role="listbox">
+
+                        {% for quality in qualities %}
+                          <li>
+                              <label>
+                                <input type="checkbox" name="quality" value="{{ quality.slug }}">
+                                  {{ quality.name }}
+                              </label>
+                          </li>
+                        {% endfor %}
+
+                      </ul>
+                    </details>
+
+
+
+
+
+
+
+                <div class="btn-group">
+                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Quality
+                  </button>
+                  <div class="dropdown-menu">
+
+                        {% for quality in qualities %}
+                            <li class="editContent">
+                                <input type="checkbox" class="checked" name="quality" value="{{ quality.slug }}">
+                                <span class="span editContent">
+                                    {{ quality.name }}
+                                </span>
+                            </li>
+                        {% endfor %}
+
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-secondary btn-search"><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon">Search</span></button>
+
+
+               </div>
+              </div>
+             </div>
+          </div>
+        </div>
+
+    </form>
+                </div>
+
+            </div>
+
+
+
             <!-- /.col-lg-3 -->
             <div class="col-lg-9">
                 <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
@@ -34,7 +131,7 @@
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
-                <div class="row">
+                <div class="grid">
                     {% for item in object_list %}
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
