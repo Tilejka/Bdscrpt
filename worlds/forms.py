@@ -1,6 +1,6 @@
 from django import forms
 
-from worlds.models import Comment
+from worlds.models import WComment
 
 
 class CommentForm(forms.ModelForm):
@@ -11,5 +11,5 @@ class CommentForm(forms.ModelForm):
     }))
 
     class Meta:
-        model = Comment
+        model = WComment
         fields = ('content', )

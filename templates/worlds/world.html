@@ -1,104 +1,215 @@
-{% extends 'worlds/base.html' %}
+{% extends 'partials/base.html' %}
 {% load static %}
 {% load hitcount_tags %}
 {% load rating_tags %}
 
+{#{% block content %}#}
+{#<div class="container py-4">#}
+{#  <div class="row">#}
+{#    <div class="col-md-8 mx-auto">#}
+{#      <div class="card">#}
+{#        <div class="row no-gutters">#}
+{#          <div class="col-md-4">#}
+{#            <a href="{% url 'worlds:world' world.slug %}">#}
+{#              <img src="{{ world.image.url }}" class="card-img" alt="{{ world.name }}">#}
+{#            </a>#}
+{#          </div>#}
+{#          <div class="col-md-8">#}
+{#            <div class="card-body">#}
+{#              <h4 class="card-title">#}
+{#                <a href="{% url 'worlds:world' world.slug %}">{{ world.name }}</a>#}
+{#              </h4>#}
+{#              <h6 class="mb-0">{{ world.world_type }}</h6>#}
+{#              {% render_rating request=request obj=world settings_slug='default-config' %}#}
+{#              <p class="card-text my-3">{{ world.description }}</p>#}
+{#              {% if user.is_authenticated %}#}
+{#              <div class="mb-3">#}
+{#                <a href="{% url 'worlds:fav_world' world.slug %}"#}
+{#                  class="btn btn-outline-warning btn-block">#}
+{#                  {% if user not in world.fav_world.all %}#}
+{#                  <i class="fas fa-star"></i> Add to Favorites#}
+{#                  {% else %}#}
+{#                  <i class="fas fa-star"></i> Remove from Favorites#}
+{#                  {% endif %}#}
+{#                </a>#}
+{#              </div>#}
+{#              {% endif %}#}
+{#              <div class="d-flex justify-content-between align-items-center mt-4">#}
+{#                <div>#}
+{#                  <h6 class="mb-0">Comments ({{ post_comments_count }})</h6>#}
+{#                  <small class="text-muted">{{ world.created_timestamp|date:"d M Y" }}#}
+{#                    | {% get_hit_count for world %} hits</small>#}
+{#                </div>#}
+{#                <div>#}
+{#                  <button type="button" class="btn btn-outline-warning" data-toggle="collapse"#}
+{#                    data-target="#commentForm" aria-expanded="false" aria-controls="commentForm">Leave a Comment</button>#}
+{#                </div>#}
+{#              </div>#}
+{#              <hr class="my-4">#}
+{#              <div id="commentForm" class="collapse">#}
+{#                {% if user.is_authenticated %}#}
+{#                <form method="POST" action="{% url 'worlds:world' world.slug %}" class="comment-form">#}
+{#                  {% csrf_token %}#}
+{#                  <div class="form-group">#}
+{#                    {{ form.as_p }}#}
+{#                  </div>#}
+{#                  <div class="text-center">#}
+{#                    <button class="btn btn-warning" type="submit">Submit</button>#}
+{#                  </div>#}
+{#                </form>#}
+{#                {% else %}#}
+{#                <div class="alert alert-warning" role="alert">#}
+{#                  You need to <a href="{% url 'login' %}">log in</a> to leave a comment.#}
+{#                </div>#}
+{#                {% endif %}#}
+{#              </div>#}
+{#              <div class="media-list mt-4">#}
+{#                {% for comment in post_comments %}#}
+{#                <div class="media mb-3">#}
+{#                  <img src="#}
+{#                                            {% if comment.user.image %}#}
+{#                                                {{ comment.user.image.url }}#}
+{#                                            {% else %}#}
+{#                                                {% static 'vendor/img/users/default_avatar.jpg' %}#}
+{#                                            {% endif %}#}
+{#                                        " alt="Avatar" class="comment-avatar">#}
+{#                  <div class="media-body">#}
+{#                    <div class="d-flex justify-content-between align-items-center">#}
+{#                      <h6 class="comment-author mb-0">{{ comment.user }}</h6>#}
+{#                      <small class="text-muted comment-date">{{ comment.date|date:"d M Y" }}</small>#}
+{#                    </div>#}
+{#                    <p class="comment-content my-1"><pre>{{ comment.content }}</pre></p>#}
+{#                  </div>#}
+{#                </div>#}
+{#                {% empty %}#}
+{#                <p class="text-muted">No comments yet.</p>#}
+{#                {% endfor %}#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#        <div class="card-footer bg-transparent">#}
+{#          {% render_rating_info request=request obj=world settings_slug='default-config' %}#}
+{#        </div>#}
+{#      </div>#}
+{#      <div class="my-5"></div>#}
+{#    </div>#}
+{#  </div>#}
+{#</div>#}
+{##}
+{#{% endblock %}#}
+
 
 
 {% block content %}
-    <div class="container">
-        <br>
-        <div class="col-lg-6" style="float:none;margin:auto;">
-            <div class="card h-100">
-                <a href="{% url 'worlds:world' world.slug %}">
-                    <img class="card-img-top"
-                         src="{{ world.image.url }}"
-                         alt="">
-                </a>
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <a href="{% url 'worlds:world' world.slug %}">{{ world.name }}</a>
-                    </h4>
-                    <h5>{{ world.world_type }}</h5>
-                    <p class="card-text">{{ world.description }}</p>
-                </div>
 
-        {% if user.is_authenticated %}
-            <div class="card-footer text-center">
-                <a class="btn btn-outline-success"
-                   href="{% url 'worlds:fav_world' world.slug %}">
-                    {% if user not in world.fav_world.all %}
-                        Add World
-                    {% else %}
-                        Delete World
-                    {% endif %}
-                </a>
-            </div>
-        {% endif %}
+<body class="text-white">
 
-                <div class="card-body">
-                    <p>{% render_rating_import %}
+<div class="container mt-4" style="margin-bottom: 60px;">
+  <div class="row">
+    <div class="col-md-3">
 
-                    {% render_rating request=request obj=world settings_slug='default-config' %}
+<div class="filter-section border border-secondary p-3">
+  <div class="container mt-0">
 
-                    {% render_rating_info request=request obj=world settings_slug='default-config' %}
-
-
-
-                    {% render_rating_script %}</p>
-                </div>
-
-
-            </div>
-        <br>
-            <div class="single-form-center">
-                <!-- contact form grid -->
-                <div class="contact-single">
-                    <h3 class="editContent" style="outline: none; cursor: inherit;">
-                                    <span class="sub-tittle editContent" style="outline: none; cursor: inherit;"></span>
-                        Comments({{ post_comments_count }})
-                    </h3>
-                    <p>{{ world.created_timestamp }} | {{ world.world_type }} | {% get_hit_count for world %} hits</p>
-
-                    <div class="media-list">
-                        {% for comment in post_comments %}
-                            <div>
-                                <img  width="50" height="50" src="
-                                    {% if comment.user.image %}
-                                        {{ comment.user.image.url }}
-                                    {% else %}
-                                        {% static 'vendor/img/users/default_avatar.jpg' %}
-                                    {% endif %}" alt="Avatar">
-
-                                <div class="media-body">
-                                    <div class="small-1">
-                                        <b> {{ comment.user }}</b>
-                                        <time class="ml-4 opaciy-70 small-3"> {{ comment.date }}</time>
-                                    </div>
-                                    <p> {{ comment.content }}</p>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-
-                {% if user.is_authenticated %}
-
-                    <form method="POST" action="{% url 'worlds:world' world.slug %}">
-                        {% csrf_token %}
-                        <div class="form-group">
-                                    {{ form.as_p }}
-                        </div>
-                        <button class="btn btn-primary btn-block " type="submit">Comment</button>
-                    </form>
-
-                {% endif %}
-
-                </div>
-            </div>
-        </div>
+    <div class="row">
+      <div class="col">
+            <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">World type</h5>
+            <label>{{ world.world_type.name }}</label>
+      </div>
     </div>
-                <!--  //contact form grid ends here -->
 
-    {% include 'partials/_footer.html' %}
+    <div class="row">
+      <div class="col">
+            <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">World gods</h5>
 
+          {% for god in world.world_gods.all %}
+            <label>{{ god.name }}</label>
+            <br>
+          {% endfor %}
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+
+      <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">{{ world.sphere.name }}</h5>
+
+          {% for s_world in similar_worlds %}
+
+            <label>{{ s_world.name }}</label>
+            <br>
+          {% empty %}
+
+            <label>No worlds found in {{ world.sphere.name }}</label>
+            <br>
+          {% endfor %}
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    </div>
+
+
+
+
+        <div class="col-md-9">
+        <div class="row">
+
+                                <div class="col-md-12 mb-4">
+
+      <div class="card bg-dark text-white">
+        <div class="card-body bg-dark text-light">
+                            <div class="row no-gutters">
+            <div class="col-md-12">
+              <h1 class="text-center">{{ world.name }}</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <img id="world-image" src="{{ world.image.url }}" alt="{{ world.name }} image" class="img-fluid"  style="padding: 15px;" onclick="enlargeImg()">
+            </div>
+
+            <div class="col-md-12">
+              <div>
+                <p style="font-size: 1rem; padding: 15px;">{{ world.description }}</p>
+              </div>
+
+
+
+
+
+
+<a href="#my-modal" data-toggle="modal">Large modal</a>
+
+<div id="my-modal" aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-lg" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content bg-dark">
+      {{ world.description }}
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+        </div>
+  </div>
+</div>
+</div>
+</body>
+{% block script %}
+  <script type="text/JavaScript" src="{% static 'vendor/js/world.js' %}"></script>
+{% endblock script %}
 {% endblock %}

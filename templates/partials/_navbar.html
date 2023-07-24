@@ -1,108 +1,74 @@
 {% load static %}
 
+<head>
+    <title>{{ title }}</title>
+  <style>
+    .navbar-dark .navbar-brand {
+      color: #fff;
+    }
+     .navbar .dropdown-menu {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .dropdown-menu-right {
+      right: 0;
+      left: auto;
+    }
+    .nav-item.active .nav-link {
+      border: 1px solid #007bff;
+      border-radius: 5px;
+    }
+    .dropdown-item:hover {
+      background-color: gray;
+    }
+    .navbar-brand.active {
+  border: 1px solid #007bff;
+  border-radius: 5px;
+}
+  </style>
+</head>
 
-<link rel="stylesheet" href="{% static "css/pico/pico.min.css" %}">
+<body>
 
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<a class="navbar-brand {% if request.path == '/' %}active{% endif %}" href="{% url 'index' %}">
+  Landing Page
+</a>
+    <form class="form-inline mx-auto">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <ul class="navbar-nav ml-auto">
+<li class="nav-item {% if request.path == '/items/' %}active{% endif %}">
+      <a class="nav-link" href="{% url 'items:index' %}">Items</a>
+    </li>
+      <li class="nav-item {% if request.path == '/worlds/' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'worlds:index' %}">Worlds</a>
+      </li>
+    {% if user.is_authenticated %}
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        {{ user.get_username }}
+      </a>
+      <div id="myDropdownMenu" class="dropdown-menu dropdown-menu-right bg-dark w-100" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item text-light" href="{% url 'users:profile' %}">Profile</a>
+          {% if user.is_superuser or user.is_staff %}
+            <a class="dropdown-item text-light" href="{% url 'admin:index' %}">Admin Panel</a>
+          {% endif %}
+          <a class="dropdown-item text-light" href="{% url 'users:logout' %}">Logout</a>
+      </div>
+    </li>
+    {% else %}
+        <li class="nav-item">
+        <a class="dropdown-item text-light" href="{% url 'users:login' %}">Log In</a>
+      </li>
+    {% endif %}
+    </ul>
+  </nav>
 
+  <div class="container">
+    <!-- Content goes here -->
+  </div>
 
-<!-- Nav -->
-    <nav class="container-fluid">
-      <ul>
-        <li>
-          <a href="./" class="contrast" onclick="event.preventDefault()"><strong>Brand</strong></a>
-        </li>
-      </ul>
-      <ul>
-        <li>
-          <details role="list" dir="rtl">
-            <summary aria-haspopup="listbox" role="link" class="secondary">Theme</summary>
-            <ul role="listbox">
-              <li><a href="#" data-theme-switcher="auto">Auto</a></li>
-              <li><a href="#" data-theme-switcher="light">Light</a></li>
-              <li><a href="#" data-theme-switcher="dark">Dark</a></li>
-            </ul>
-          </details>
-        </li>
-        <li>
-          <details role="list" dir="rtl">
-            <summary aria-haspopup="listbox" role="link" class="secondary">Examples (v1)</summary>
-            <ul role="listbox">
-              <li><a href="../v1-preview/">Preview</a></li>
-              <li><a href="../v1-preview-rtl/">Right-to-left</a></li>
-              <li><a href="../v1-classless/">Classless</a></li>
-              <li><a href="../v1-basic-template/">Basic template</a></li>
-              <li><a href="../v1-company/">Company</a></li>
-              <li><a href="../v1-google-amp/">Google Amp</a></li>
-              <li><a href="../v1-sign-in/">Sign in</a></li>
-              <li><a href="../v1-bootstrap-grid/">Bootstrap grid</a></li>
-            </ul>
-          </details>
-        </li>
-      </ul>
-    </nav>
-    <!-- ./ Nav -->
-
-
-
-
-
-
-
-{#<!-- Navigation -->#}
-{#<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">#}
-{#    <div class="container">#}
-{#        <a class="navbar-brand" href="{% url 'index' %}">Landing</a>#}
-{#        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"#}
-{#                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">#}
-{#            <span class="navbar-toggler-icon"></span>#}
-{#        </button>#}
-{##}
-{##}
-{#<!-- Search -->#}
-{##}
-{#        <div class="collapse navbar-collapse" id="navbarResponsive">#}
-{#            <ul class="navbar-nav ml-auto">#}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link" href="{% url 'items:index' %}">Items</a>#}
-{#                </li>#}
-{##}
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link" href="{% url 'worlds:index' %}">Worlds</a>#}
-{#                </li>#}
-{##}
-{##}
-{#                {% if user.is_authenticated %}#}
-{#                    <li class="nav-item dropdown">#}
-{#                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"#}
-{#                       data-bs-toggle="dropdown" aria-expanded="false">#}
-{#                        <i class="fas fa-user-circle"></i>#}
-{#                    </a>#}
-{#                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">#}
-{#                        <li>#}
-{#                            <a class="dropdown-item" href="{% url 'users:profile' %}">Profile</a>#}
-{#                        </li>#}
-{#                        <li><a class="dropdown-item" href="orders/orders.html">Orders?</a></li>#}
-{#                        {% if user.is_superuser or user.is_staff %}#}
-{#                            <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin-panel</a></li>#}
-{#                        {% endif %}#}
-{#                        <li>#}
-{#                            <hr class="dropdown-divider">#}
-{#                        </li>#}
-{#                        <li>#}
-{#                            <a class="dropdown-item" href="{% url 'users:logout' %}">#}
-{#                                Logout#}
-{#                            </a>#}
-{#                        </li>#}
-{#                    </ul>#}
-{#                </li>#}
-{#                {% else %}#}
-{#                    <li class="nav-item">#}
-{#                        <a class="nav-link" href="{% url 'users:login' %}">Enter <i class="fas fa-sign-in-alt"></i></a>#}
-{#                    </li>#}
-{#                {% endif %}#}
-{#            </ul>#}
-{#        </div>#}
-{#    </div>#}
-{#</nav>#}
-{#<br>#}
-{#<br>#}
+</body>

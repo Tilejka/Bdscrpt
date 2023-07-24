@@ -1,15 +1,28 @@
-{% load static %}
+<style>
+  html {
+    position: relative;
+    min-height: 100%;
+  }
 
+  body {
+    margin-bottom: 40px;
+  }
 
-<!DOCTYPE html>
+  .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+}
+</style>
 
-<html lang="en" class="h-100">
-<hr>
-  <body class="d-flex flex-column h-100">
-    <footer class="footer mt-auto py-3 bg-dark text-center text-white">
-      <div class="container">
-        <span class="text-light">Copyright &copy; Bdscrpt 2023</span>
+<footer class="footer bg-dark text-center text-white">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <span class="text-light">&copy; Bdscrpt 2023</span>
       </div>
-    </footer>
-  </body>
-</html>
+    </div>
+  </div>
+</footer>

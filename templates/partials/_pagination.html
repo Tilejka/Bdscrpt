@@ -1,0 +1,26 @@
+{% if is_paginated %}
+<nav aria-label="Page navigation example" class="mt-4 mb-4">
+  <ul class="pagination justify-content-center bg-dark">
+    <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}">
+      <a class="page-link text-light bg-dark {% if not page_obj.has_previous %} disabled {% endif %}"
+        href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{{ filters }}{% else %} # {% endif %}"
+        tabindex="-1" aria-disabled="true">
+        Previous
+      </a>
+    </li>
+    {% for page in paginator.page_range %}
+    <li class="page-item {% if page == page_obj.number %} active {% endif %}">
+      <a class="page-link bg-dark text-light" href="?page={{ page }}{{ filters }}">
+        {{ page }}
+      </a>
+    </li>
+    {% endfor %}
+    <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}">
+      <a class="page-link text-light bg-dark {% if not page_obj.has_next %} disabled {% endif %}"
+        href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{{ filters }}{% else %} # {% endif %}">
+        Next
+      </a>
+    </li>
+  </ul>
+</nav>
+{% endif %}

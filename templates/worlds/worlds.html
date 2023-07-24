@@ -1,102 +1,159 @@
-{% extends 'worlds/base.html' %}
+{% extends 'partials/base.html' %}
 {% load static %}
 
+{% block scripts %}
+{% endblock %}
+
 {% block content %}
-    <div class="container">
-        <div class="row">
 
-            <!-- /.col-lg-3 -->
-            <div class="col-lg-9">
-                <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                    </ol>
-                    <div class="carousel-inner" role="listbox">
-                        <div class="carousel-item active">
-                            <img class="d-block img-fluid" src="{% static 'vendor/img/slides/slide-1.jpg' %}" style="border-radius: 0.5%" alt="First slide">
+<style>
+    body {
+    background-color: #212529;
+    }
+    .card-description {
+    height: 100%;
+    overflow: hidden;
+    }
+    .card-details {
+    height: 100%;
+    margin: 0 15px;
+    }
+    .card-description {
+    height: 190px;
+    overflow-y: auto;
+    }
+</style>
 
+<body class="text-white">
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-3">
+
+<div class="filter-section border border-secondary p-3">
+  <div class="d-flex">
+
+    <form class="form-inline mx-auto" action="{% url 'worlds:index' %}" method="GET">
+      <div class="input-group">
+        <input name="keywords" class="form-control" type="search" placeholder="Search Items" aria-label="Search">
+        <div class="input-group-append">
+          <button class="btn btn-outline-light" type="submit">Search</button>
+        </div>
+      </div>
+
+
+<div class="container mt-4">
+
+  <div class="row">
+    <div class="col">
+    {% if user.is_authenticated %}
+      <div class="form-group">
+        <input class="form-check-input" type="checkbox" name="fav_world" value="True" id="fav_world">
+        <label class="form-check-label custom-checkbox-label" for="fav_world">
+          Favourite Worlds
+        </label>
+      </div>
+    {% endif %}
+    </div>
+  </div>
+
+
+<div class="row">
+    <div class="col">
+        <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">World type</h5>
+        {% for world_type in world_types %}
+            <div class="form-group">
+                <input class="form-check-input" type="checkbox" name="world_type" value="{{ world_type.slug }}" id="{{ world_type.slug }}">
+                <label class="form-check-label custom-checkbox-label" for="{{ world_type.slug }}">
+                {{ world_type.name }}
+                </label>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col">
+        <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">World gods</h5>
+        {% for world_god in world_gods %}
+            <div class="form-group">
+                <input class="form-check-input" type="checkbox" name="world_gods" value="{{ world_god.slug }}" id="{{ world_god.slug }}">
+                <label class="form-check-label custom-checkbox-label" for="{{ world_god.slug }}">
+                {{ world_god.name }}
+                </label>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+  <div class="row mt-3">
+    <div class="col">
+      <button type="submit" class="btn btn-primary">Apply Filters</button>
+    </div>
+  </div>
+
+</div>
+
+
+    </form>
+  </div>
+</div>
+
+    </div>
+
+
+      <div class="col-md-9">
+      <div class="row">
+
+{% for world in object_list %}
+    <div class="col-md-12 mb-4">
+        <div class="card bg-dark text-white">
+            <div class="row no-gutters">
+
+                <div class="col-md-4">
+                    <a href="{% url 'worlds:world' world.slug %}">
+                        <img src="{{ world.image.url }}" class="card-img" alt="{{ world.name }}">
+                    </a>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <a href="{% url 'worlds:world' world.slug %}" class="card-title">{{ world.name }}</a>
+                            {% if world.sphere %}
+                                <small class="text-secondary ml-2">{{ world.sphere.name }}</small>
+                            {% endif %}
                         </div>
-                        <div class="carousel-item">
-                            <img class="d-block img-fluid" src="{% static 'vendor/img/slides/slide-2.jpg' %}" style="border-radius: 0.5%" alt="Second slide">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block img-fluid" src="{% static 'vendor/img/slides/slide-3.jpg' %}" style="border-radius: 0.5%" alt="Third slide">
+
+                        <div class="d-md-flex justify-content-between card-sections">
+                            <div class="card-description">
+                                <p class="card-text">{{ world.description }}</p>
+                            </div>
+
+                            <div class="card-details">
+                                <p><strong>Type:</strong> {{ world.world_type }}</p>
+                                <p><strong>Gods:</strong>
+                                    {% for world_god in world.world_gods.all %}
+                                        {{ world_god.name }}
+                                    {% endfor %}
+                                </p>
+                            </div>
+
                         </div>
                     </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
                 </div>
-                <div class="row">
-                    {% for world in object_list %}
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <a href="{% url 'worlds:world' world.slug %}">
-                                    <img class="card-img-top"
-                                         src="{{ world.image.url }}"
-                                         alt="">
-                                </a>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <a href="{% url 'worlds:world' world.slug %}">{{ world.name }}</a>
-                                    </h4>
-                                    <h5>{{ world.world_type }}</h5>
-                                    <p class="card-text">{{ world.description|truncatechars:98 }}</p>
-                                </div>
-                                {% if user.is_authenticated %}
-                                    <div class="card-footer text-center">
-                                        <a class="btn btn-outline-success"
-                                           href="{% url 'worlds:fav_world' world.slug %}">
-                                            {% if user not in world.fav_world.all %}
-                                                Add World
-                                            {% else %}
-                                                Delete World
-                                            {% endif %}
-                                        </a>
-                                    </div>
-                                    {% else %}
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                {% if is_paginated %}
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}">
-                                <a class="page-link"
-                                   href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{{ filters }}{% else %} # {% endif %}"
-                                   tabindex="-1" aria-disabled="true">
-                                    Previous
-                                </a>
-                            </li>
-                            {% for page in paginator.page_range %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ page }}{{ filters }}">
-                                        {{ page }}
-                                    </a>
-                                </li>
-                            {% endfor %}
-                            <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}">
-                                <a class="page-link"
-                                   href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{{ filters }}{% else %} # {% endif %}">
-                                    Next
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                {% endif %}
+
             </div>
         </div>
     </div>
+{% endfor %}
 
-    {% include 'partials/_footer.html' %}
+      </div>
+    </div>
 
+  </div>
+</div>
+</body>
 {% endblock %}

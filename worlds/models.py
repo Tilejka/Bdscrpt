@@ -55,12 +55,24 @@ class Domain(models.Model):
         return self.name
 
 
+class Sphere(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
+    description = models.TextField(null=True, blank=True)
+    image = models.ImageField(upload_to='sphere_images')
+
+    def __str__(self):
+        return self.name
+
+
 class WorldGod(models.Model):
     name = models.CharField(max_length=128)
+    title = models.CharField(max_length=128)
     alignment = models.ForeignKey(to=Alignment, on_delete=models.CASCADE)
     domains = models.ForeignKey(to=Domain, on_delete=models.CASCADE)
     rank = models.ForeignKey(to=DivineRank, on_delete=models.CASCADE)
     symbol = models.CharField(max_length=128)
+    sphere = models.ForeignKey(to=Sphere, on_delete=models.CASCADE)
     description = models.TextField(null=True, blank=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
     image = models.ImageField(upload_to='deities_images')
@@ -79,7 +91,8 @@ class World(models.Model):
     description = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to='world_images')
     world_type = models.ForeignKey(to=WorldType, on_delete=models.CASCADE)
-    world_gods = models.ForeignKey(to=WorldGod, on_delete=models.CASCADE)
+    sphere = models.ForeignKey(to=Sphere, related_name='world_sphere', on_delete=models.CASCADE)
+    world_gods = models.ManyToManyField(to=WorldGod, related_name='world_gods', blank=True)
     created_timestamp = models.DateTimeField(auto_now_add=True)
     fav_world = models.ManyToManyField(to=User, related_name='fav_world', blank=True)
 
@@ -94,7 +107,7 @@ class World(models.Model):
 class WComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
-    post = models.ForeignKey('World', on_delete=models.CASCADE)
+    post = models.ForeignKey(World, on_delete=models.CASCADE)
     content = models.TextField()
 
     def __str__(self):

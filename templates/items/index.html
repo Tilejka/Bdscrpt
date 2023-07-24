@@ -1,12 +1,21 @@
-{% extends 'items/base.html' %}
+{% extends 'partials/base.html' %}
 {% load static %}
 
 {% block css %}
-    <link href="{% static 'vendor/css/index.css' %}" rel="stylesheet">
+  <style>
+        body {
+             background: url("/static/vendor/img/wallpaper.jpg") no-repeat center top fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            background-size: cover;
+            -o-background-size: cover;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-    <section>
+    <body class="text-white">
+
         <!--    <div class="alert alert-light text-center" role="alert">-->
         <!--        Info message-->
         <!--    </div>-->
@@ -16,13 +25,15 @@
                     <h1 class="mt-5 text-white">Descriptions</h1>
                     <p class="text-white">This site is an absolute blast for anyone interested in the world of magic and fantasy. Here you can find descriptions of items, spells, worlds, and more. It's a must-visit for anyone looking for a fun time diving into the crazy world of fantasy and magic. You'll have a blast exploring the wonderful world of fantasy and magic - it's time to start your adventure today!
                     </p>
-                    <button type="button" class="btn btn-outline-light">
-                        <a id="start-purchase-link" href="{% url 'items:index' %}">
-                            Start exploring!
-                        </a>
+                    <button type="button" class="btn btn-outline-primary">
+                      <a href="{% url 'items:index' %}" class="text-white text-decoration-none">
+                        Start exploring!
+                      </a>
                     </button>
                 </div>
             </div>
         </div>
-    </section>
+
+    </body>
 {% endblock %}
+{% block footer %}{% endblock %}

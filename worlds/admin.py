@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from worlds.models import WorldType, DivineRank, Alignment, Domain, WorldGod, World
+from worlds.models import WorldType, DivineRank, Alignment, Domain, WorldGod, World, Sphere, WComment
 
 
 @admin.register(Domain)
@@ -33,16 +33,27 @@ class WorldTypeAdmin(admin.ModelAdmin):
 
 @admin.register(WorldGod)
 class WorldGodAdmin(admin.ModelAdmin):
-    list_display = ('name', 'id', 'alignment', 'domains', 'rank', 'symbol')
+    list_display = ('name', 'id', 'alignment', 'domains', 'sphere', 'rank', 'symbol')
     readonly_fields = ('id', )
     prepopulated_fields = {'slug': ('name', )}
 
 
 @admin.register(World)
 class WorldAdmin(admin.ModelAdmin):
-    list_display = ('name', 'id', 'world_type', 'world_gods')
+    list_display = ('name', 'id', 'world_type')
     readonly_fields = ('created_timestamp', 'id')
-    fields = ('name', 'slug', 'description', ('world_type', 'world_gods'), 'fav_world', 'image', 'created_timestamp')
+    fields = ('name', 'slug', 'description', 'world_type', 'sphere', 'world_gods', 'fav_world', 'image', 'created_timestamp')
+    filter_horizontal = ('fav_world', 'world_gods')
     search_fields = ('name', )
     ordering = ('name', )
     prepopulated_fields = {'slug': ('name', )}
+
+
+@admin.register(Sphere)
+class SphereAdmin(admin.ModelAdmin):
+    list_display = ('name', 'id')
+    readonly_fields = ('id', )
+    prepopulated_fields = {'slug': ('name', )}
+
+
+admin.site.register(WComment)

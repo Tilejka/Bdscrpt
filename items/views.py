@@ -57,17 +57,6 @@ class ItemsListView(ListView):
         return queryset.order_by('name')
 
 
-# def item(request, item_slug):
-#     item = get_object_or_404(Item, slug=item_slug)
-#
-#     context = {
-#         'title': item.name,
-#         'item': item
-#     }
-#
-#     return render(request, 'items/item.html', context=context)
-
-
 class ItemDetailView(HitCountDetailView):
     model = Item
     template_name = 'items/item.html'
