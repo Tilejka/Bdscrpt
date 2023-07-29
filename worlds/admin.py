@@ -33,8 +33,9 @@ class WorldTypeAdmin(admin.ModelAdmin):
 
 @admin.register(WorldGod)
 class WorldGodAdmin(admin.ModelAdmin):
-    list_display = ('name', 'id', 'alignment', 'domains', 'sphere', 'rank', 'symbol')
+    list_display = ('name', 'id', 'alignment', 'sphere', 'rank', 'symbol')
     readonly_fields = ('id', )
+    filter_horizontal = ('domains', )
     prepopulated_fields = {'slug': ('name', )}
 
 

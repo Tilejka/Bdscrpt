@@ -1,0 +1,128 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<body class="text-white">
+
+<div class="container mt-4" style="margin-bottom: 60px;">
+  <div class="row">
+    <div class="col-md-3">
+
+      <div class="filter-section border border-secondary p-3">
+        <div class="container mt-0">
+
+          <div class="row">
+            <div class="col">
+              <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">Divine Rank</h5>
+              <label>
+                  {% include 'partials/_modal.html' with slug=worldgod.rank.slug title=worldgod.rank.name cont=worldgod.rank.description %}
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">Alignments</h5>
+
+                <label>
+                    {% include 'partials/_modal.html' with slug=worldgod.alignment.slug title=worldgod.alignment.name cont=worldgod.alignment.description %}
+                </label>
+                <br>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+
+              <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">Domains</h5>
+
+              {% for domain in worldgod.domains.all %}
+                <label>
+                    {% include 'partials/_modal.html' with slug=domain.slug title=domain.name cont=domain.description %}
+                </label>
+                <br>
+              {% empty %}
+                <label>No domains found for {{ worldgod.name }}</label>
+                <br>
+              {% endfor %}
+
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col">
+
+              <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">{{ worldgod.sphere.name }}</h5>
+
+                {% for s_god in similar_gods %}
+                  <a href="{% url 'worlds:gods' slug=s_god.slug %}">
+                    {{ s_god.name }}
+                  </a>
+                  <br>
+                {% empty %}
+                  <label>No gods found in {{ world_god.sphere.name }}</label>
+                  <br>
+                {% endfor %}
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-9">
+
+      <div class="row">
+
+        <div class="col-md-12 mb-4">
+
+          <div class="card bg-dark text-white">
+            <div class="card-body bg-dark text-light">
+
+              <div class="row no-gutters">
+                <div class="col-md-12">
+                  <h1 class="text-center">{{ worldgod.name }}</h1>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                      <img id="world-image" src="{{ worldgod.image.url }}" alt="{{ worldgod.name }} image" class="img-fluid" style="padding: 15px;" onclick="enlargeImg()">
+                </div>
+
+                <div class="col-md-8">
+                  <div style="padding: 15px;">
+                    <h4>{{ worldgod.title }}</h4>
+                    <p>Symbol: {{ worldgod.symbol }}</p>
+                    <p>{{ worldgod.description }}</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- Overlay div for image enlargement -->
+<div class="overlay"></div>
+
+</body>
+
+{% block script %}
+  <script type="text/JavaScript" src="{% static 'vendor/js/world.js' %}"></script>
+{% endblock script %}
+
+{% endblock %}

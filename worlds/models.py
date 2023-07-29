@@ -69,7 +69,7 @@ class WorldGod(models.Model):
     name = models.CharField(max_length=128)
     title = models.CharField(max_length=128)
     alignment = models.ForeignKey(to=Alignment, on_delete=models.CASCADE)
-    domains = models.ForeignKey(to=Domain, on_delete=models.CASCADE)
+    domains = models.ManyToManyField(to=Domain)
     rank = models.ForeignKey(to=DivineRank, on_delete=models.CASCADE)
     symbol = models.CharField(max_length=128)
     sphere = models.ForeignKey(to=Sphere, on_delete=models.CASCADE)

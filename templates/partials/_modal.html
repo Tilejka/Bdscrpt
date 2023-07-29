@@ -1,0 +1,21 @@
+<!-- Button trigger modal -->
+<a href="#{{ slug }}" data-toggle="modal">{{ title }}</a>
+<!-- Modal -->
+<div class="modal fade" id="{{ slug }}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content bg-dark">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ title }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" class="text-light">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ cont }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

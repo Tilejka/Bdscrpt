@@ -83,7 +83,29 @@ class WorldDetailView(HitCountDetailView):
             'post_comments_count': post_comments_count,
             'similar_worlds': similar_worlds,
         })
+
         return context
+
+
+class WorldGodDetailView(HitCountDetailView):
+    model = WorldGod
+    template_name = 'worlds/gods.html'
+    slug_field = 'slug'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Retrieve similar gods by sphere
+        current_god = self.get_object()
+        similar_gods = WorldGod.objects.filter(sphere=current_god.sphere)
+
+        context.update({
+            # 'god': current_god,
+            'similar_gods': similar_gods,
+        })
+
+        return context
+
 
 
 @login_required
