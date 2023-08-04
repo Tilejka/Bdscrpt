@@ -1,11 +1,12 @@
 <!-- Button trigger modal -->
-<a href="#{{ slug }}" data-toggle="modal">{{ title }}</a>
+<a href="#{{ slug }}" data-toggle="modal"><i class="fas fa-book text-white"></i> {{ title }}</a>
 <!-- Modal -->
 <div class="modal fade" id="{{ slug }}" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content bg-dark">
       <div class="modal-header">
-        <h5 class="modal-title">{{ title }}</h5>
+        <!-- add book icon to modal header -->
+        <h5 class="modal-title"><i class="fas fa-book text-white"></i> {{ title }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true" class="text-light">&times;</span>
         </button>

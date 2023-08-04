@@ -1,5 +1,8 @@
+from urllib.parse import urlencode
+
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.db.models import Q
+from django.http import HttpResponseRedirect, QueryDict
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import ListView
@@ -12,39 +15,52 @@ from worlds.models import WorldType, World, WorldGod, DivineRank, Domain, Alignm
 class WorldsListView(ListView):
     model = World
     template_name = 'worlds/worlds.html'
-    paginate_by = 1
+    paginate_by = 2
     context_object_name = 'worlds'
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(WorldsListView, self).get_context_data()
+        context = super().get_context_data(**kwargs)
         context['title'] = 'Beautiful Descriptions / Worlds'
         context['world_types'] = WorldType.objects.all()
         context['world_gods'] = WorldGod.objects.all()
+
         filters = ''
+
         if 'fav_world' in self.request.GET:
-            filters = f'&fav_world=True'
+            filters += '&fav_world=True'
+
         if 'world_type' in self.request.GET:
             filters += ''.join([f'&world_type={x}' for x in self.request.GET.getlist('world_type')])
+
         if 'world_gods' in self.request.GET:
             filters += ''.join([f'&world_gods={x}' for x in self.request.GET.getlist('world_gods')])
+
         if 'keywords' in self.request.GET:
             filters += f'&keywords={self.request.GET["keywords"]}'
+
         context['filters'] = filters
+
         return context
 
     def get_queryset(self):
         queryset = super(WorldsListView, self).get_queryset()
-        print(self.request.GET)
+
+        filters = Q()
+
         if 'fav_world' in self.request.GET:
             user = self.request.user
-            queryset = user.fav_world.all()
+            filters &= Q(user__fav_world=user)
+
         if 'world_type' in self.request.GET:
-            queryset = queryset.filter(world_type__slug__in=self.request.GET.getlist('world_type'))
+            filters &= Q(world_type__slug__in=self.request.GET.getlist('world_type'))
+
         if 'world_gods' in self.request.GET:
-            queryset = queryset.filter(world_gods__slug__in=self.request.GET.getlist('world_gods'))
+            filters &= Q(world_gods__slug__in=self.request.GET.getlist('world_gods'))
+
         if 'keywords' in self.request.GET:
-            queryset = queryset.filter(description__icontains=self.request.GET['keywords'])
-        return queryset.order_by('name')
+            filters &= Q(description__icontains=self.request.GET['keywords'])
+
+        return queryset.filter(filters).order_by('name')
 
 
 class WorldDetailView(HitCountDetailView):
@@ -63,7 +79,7 @@ class WorldDetailView(HitCountDetailView):
             form.instance.post = post
             form.save()
 
-            return redirect(reverse('items:item', kwargs={
+            return redirect(reverse('worlds:world', kwargs={
                 'slug': post.slug
             }))
 
@@ -100,12 +116,10 @@ class WorldGodDetailView(HitCountDetailView):
         similar_gods = WorldGod.objects.filter(sphere=current_god.sphere)
 
         context.update({
-            # 'god': current_god,
             'similar_gods': similar_gods,
         })
 
         return context
-
 
 
 @login_required

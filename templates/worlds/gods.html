@@ -12,22 +12,22 @@
       <div class="filter-section border border-secondary p-3">
         <div class="container mt-0">
 
-          <div class="row">
-            <div class="col">
-              <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">Divine Rank</h5>
-              <label>
-                  {% include 'partials/_modal.html' with slug=worldgod.rank.slug title=worldgod.rank.name cont=worldgod.rank.description %}
-              </label>
-            </div>
-          </div>
+<div class="row">
+  <div class="col">
+    <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">Divine Rank</h5>
+    <a>
+      {% include 'partials/_modal.html' with slug=worldgod.rank.slug title=worldgod.rank.name cont=worldgod.rank.description %}
+    </a>
+  </div>
+</div>
 
           <div class="row">
             <div class="col">
               <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">Alignments</h5>
 
-                <label>
+                <a>
                     {% include 'partials/_modal.html' with slug=worldgod.alignment.slug title=worldgod.alignment.name cont=worldgod.alignment.description %}
-                </label>
+                </a>
                 <br>
 
             </div>
@@ -37,14 +37,13 @@
             <div class="col">
 
               <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">Domains</h5>
-
               {% for domain in worldgod.domains.all %}
-                <label>
+                <a>
                     {% include 'partials/_modal.html' with slug=domain.slug title=domain.name cont=domain.description %}
-                </label>
+                </a>
                 <br>
               {% empty %}
-                <label>No domains found for {{ worldgod.name }}</label>
+                <a>No domains found for {{ worldgod.name }}</a>
                 <br>
               {% endfor %}
 
@@ -52,9 +51,28 @@
           </div>
 
 
+
+<!-- Show sphere name and worlds of god -->
+<div class="row">
+  <div class="col">
+
+    <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">God's Worlds</h5>
+    {% for w_god in worldgod.world_gods.all %}
+      <a href="{% url 'worlds:world' slug=w_god.slug %}">
+        {{ w_god.name }}
+      </a>
+      <br>
+    {% empty %}
+      <a>No worlds found for {{ worldgod.name }}.</a>
+      <br>
+    {% endfor %}
+
+  </div>
+</div>
+
+
           <div class="row">
             <div class="col">
-
               <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">{{ worldgod.sphere.name }}</h5>
 
                 {% for s_god in similar_gods %}
@@ -63,7 +81,7 @@
                   </a>
                   <br>
                 {% empty %}
-                  <label>No gods found in {{ world_god.sphere.name }}</label>
+                  <a>No gods found in {{ world_god.sphere.name }}</a>
                   <br>
                 {% endfor %}
 

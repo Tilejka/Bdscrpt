@@ -68,12 +68,12 @@
 {#                {% for comment in post_comments %}#}
 {#                <div class="media mb-3">#}
 {#                  <img src="#}
-{#                                            {% if comment.user.image %}#}
-{#                                                {{ comment.user.image.url }}#}
-{#                                            {% else %}#}
-{#                                                {% static 'vendor/img/users/default_avatar.jpg' %}#}
-{#                                            {% endif %}#}
-{#                                        " alt="Avatar" class="comment-avatar">#}
+{#                        {% if comment.user.image %}#}
+{#                            {{ comment.user.image.url }}#}
+{#                        {% else %}#}
+{#                            {% static 'vendor/img/users/default_avatar.jpg' %}#}
+{#                        {% endif %}#}
+{#                    " alt="Avatar" class="comment-avatar">#}
 {#                  <div class="media-body">#}
 {#                    <div class="d-flex justify-content-between align-items-center">#}
 {#                      <h6 class="comment-author mb-0">{{ comment.user }}</h6>#}
@@ -116,9 +116,9 @@
     <div class="row">
       <div class="col">
             <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">World type</h5>
-            <label>
+            <a>
                 {% include 'partials/_modal.html' with slug=world.world_type.slug title=world.world_type.name cont=world.world_type.description %}
-            </label>
+            </a>
       </div>
     </div>
 
@@ -128,7 +128,6 @@
 
           {% for god in world.world_gods.all %}
         <a href="{% url 'worlds:gods' slug=god.slug %}">
-{#          {% include 'partials/_modal.html' with slug=god.slug title=god.name cont=god.description %}#}
         {{ god.name }}
         </a>
             <br>
@@ -148,7 +147,7 @@
           </a>
           <br>
         {% empty %}
-          <label>No worlds found in {{ world.sphere.name }}</label>
+          <a>No worlds found in {{ world.sphere.name }}</a>
           <br>
         {% endfor %}
 
@@ -162,7 +161,7 @@
         <div class="col-md-9">
         <div class="row">
 
-                                <div class="col-md-12 mb-4">
+    <div class="col-md-12 mb-4">
 
       <div class="card bg-dark text-white">
         <div class="card-body bg-dark text-light">
@@ -171,23 +170,101 @@
               <h1 class="text-center">{{ world.name }}</h1>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-4">
 
-              <img id="world-image" src="{{ world.image.url }}" alt="{{ world.name }} image" class="img-fluid"  style="padding: 15px;" onclick="enlargeImg()">
-            </div>
+    <div class="row">
+        <div class="col-md-4">
+          <img id="world-image" src="{{ world.image.url }}" alt="{{ world.name }} image" class="img-fluid" style="padding: 15px;" onclick="enlargeImg()">
+        </div>
 
-            <div class="col-md-12">
-              <div>
-                <p style="font-size: 1rem; padding: 15px;">{{ world.description }}</p>
+        <div class="col-md-12">
+        <div>
+          <p style="font-size: 1rem; padding: 15px;">{{ world.description }}</p>
+        </div>
+
+
+
+
+
+
+
+                         <!-- Comment section -->
+<hr class="my-3 border-white">
+              <div class="d-flex justify-content-between align-items-center">
+<div>
+  <h6 class="mb-0">Comments ({{ post_comments_count }})</h6>
+  <small class="text-muted">Added {{ world.created_timestamp|date:"H:i:s d M Y" }}
+    | {% get_hit_count for world %} hits</small>
+</div>
+
+<div>
+  <button type="button" class="btn btn-outline-primary text-white" data-toggle="collapse"
+    data-target="#commentForm" aria-expanded="false" aria-controls="commentForm">Leave a Comment</button>
+</div>
+
+              </div>
+    <hr class="my-3">
+              <div id="commentForm" class="collapse">
+                {% if user.is_authenticated %}
+                <form method="POST" action="{% url 'worlds:world' world.slug %}" class="comment-form">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    {{ form.as_p }}
+                  </div>
+                  <div class="text-center">
+                    <button class="btn btn-outline-primary text-white" type="submit">Submit</button>
+                  </div>
+                </form>
+                {% else %}
+                <div class="alert alert-warning" role="alert">
+                  You need to <a href="{% url 'login' %}">log in</a> to leave a comment.
+                </div>
+                {% endif %}
               </div>
 
 
-{% include 'partials/_modal.html' with slug=world.slug title=world.name cont=world.description %}
+
+              <div class="media-list mt-4">
+
+{% for comment in post_comments %}
+<div class="media mb-3">
+  <img class="mr-3" width="50" height="50" src="
+    {% if comment.user.image %}
+      {{ comment.user.image.url }}
+    {% else %}
+      {% static 'vendor/img/users/default_avatar.jpg' %}
+    {% endif %}" alt="Avatar">
+
+  <div class="media-body">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h5 class="mt-0">{{ comment.user }}</h5>
+      </div>
+<div>
+  <small class="opacity-70">{{ comment.date|date:"d M Y" }}</small>
+</div>
 
 
-            </div>
-          </div>
+    </div>
+    <p>{{ comment.content }}</p>
+  </div>
+</div>
+    <hr class="my-3">
+{% endfor %}
+      <!-- End of Comment section -->
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+
         </div>
       </div>
     </div>
@@ -196,7 +273,9 @@
 </div>
 </div>
 </body>
+
 {% block script %}
   <script type="text/JavaScript" src="{% static 'vendor/js/world.js' %}"></script>
 {% endblock script %}
+
 {% endblock %}

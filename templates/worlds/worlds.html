@@ -121,7 +121,11 @@
                     <div class="card-body">
 
                         <div class="d-flex justify-content-center align-items-center">
+
+                        <h5 class="card-title text-center">
                             <a href="{% url 'worlds:world' world.slug %}" class="card-title">{{ world.name }}</a>
+                        </h5>
+
                             {% if world.sphere %}
                                 <small class="text-secondary ml-2">{{ world.sphere.name }}</small>
                             {% endif %}
