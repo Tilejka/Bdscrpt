@@ -153,6 +153,36 @@
 
       </div>
     </div>
+
+  <div class="row">
+  <div class="col">
+    <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">Favourite</h5>
+    <a href="{% url 'worlds:fav_world' world.slug %}">
+      {% if user not in world.fav_world.all %}
+          <i class="far fa-heart text-white" style="font-size: 20px;"></i> Add Item
+      {% else %}
+          <i class="fas fa-heart text-white" style="font-size: 20px;"></i> Delete Item
+      {% endif %}
+    </a>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">Rating</h5>
+        <a>
+            {% render_rating_import %}
+            {% render_rating request=request obj=world settings_slug='default-config' %}
+            {% render_rating_info request=request obj=world settings_slug='default-config' %}
+            {% render_rating_script %}
+        </a>
+    </div>
+</div>
+
+
+
+
+
   </div>
 </div>
 
@@ -173,18 +203,13 @@
 
     <div class="row">
         <div class="col-md-4">
-          <img id="world-image" src="{{ world.image.url }}" alt="{{ world.name }} image" class="img-fluid" style="padding: 15px;" onclick="enlargeImg()">
+            {% include 'partials/_modal-img.html' with title=world.name img=world.image.url slug=world.slug modal_size="modal-lg" %}
         </div>
 
         <div class="col-md-12">
         <div>
           <p style="font-size: 1rem; padding: 15px;">{{ world.description }}</p>
         </div>
-
-
-
-
-
 
 
                          <!-- Comment section -->
@@ -216,12 +241,10 @@
                 </form>
                 {% else %}
                 <div class="alert alert-warning" role="alert">
-                  You need to <a href="{% url 'login' %}">log in</a> to leave a comment.
+                  You need to <a href="{% url 'users:login' %}">log in</a> to leave a comment.
                 </div>
                 {% endif %}
               </div>
-
-
 
               <div class="media-list mt-4">
 

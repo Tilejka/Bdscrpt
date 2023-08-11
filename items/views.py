@@ -22,15 +22,17 @@ class IndexView(TemplateView):
 class ItemsListView(ListView):
     model = Item
     template_name = 'items/items.html'
-    paginate_by = 3
+    paginate_by = 5
     context_object_name = 'items'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ItemsListView, self).get_context_data()
-        context['title'] = 'Beautiful Descriptions'
+        context['title'] = 'Beautiful Descriptions / Items'
         context['categories'] = ItemCategory.objects.all()
         context['qualities'] = Quality.objects.all()
+
         filters = ''
+
         if 'favourites' in self.request.GET:
             filters = f'&favourites=True'
         if 'category' in self.request.GET:
@@ -39,7 +41,9 @@ class ItemsListView(ListView):
             filters += ''.join([f'&quality={x}' for x in self.request.GET.getlist('quality')])
         if 'keywords' in self.request.GET:
             filters += f'&keywords={self.request.GET["keywords"]}'
+
         context['filters'] = filters
+
         return context
 
     def get_queryset(self):

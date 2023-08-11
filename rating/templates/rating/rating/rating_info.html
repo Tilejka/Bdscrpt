@@ -2,13 +2,13 @@
 {% block main %}
     <div style="font-size: medium">
         <p2>Count: {{ count }}</p2><br>
-        <p>Average: {% if count %}{{ average }}/{{ settings.rates }}{% else %}-{% endif %}</p>
-        <span>Your Rate:
+        <p2>Average: {% if count %}{{ average }}/{{ settings.rates }}{% else %}-{% endif %}</p2><br>
+        <p2>Your Rate:
             {% if request.user.is_authenticated %}
                 {% if rate is not None %}{{ rate }}/{{ settings.rates }}{% else %}-{% endif %}
             {% else %}
-                <a href="{% url 'admin:login' %}">Login Here</a>
+                <a href="{% url 'users:login' %}">Login Here</a>
             {% endif %}
-        </span>
+        </p2>
     </div>
 {% endblock %}

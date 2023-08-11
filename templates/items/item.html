@@ -47,7 +47,7 @@
 </div>
 
 <div class="row">
-      <div class="col">
+    <div class="col">
         <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">Rating</h5>
         <a>
             {% render_rating_import %}
@@ -55,8 +55,9 @@
             {% render_rating_info request=request obj=item settings_slug='default-config' %}
             {% render_rating_script %}
         </a>
-      </div>
     </div>
+</div>
+
   </div>
 </div>
 
@@ -75,12 +76,15 @@
             </div>
           </div>
 <div class="row">
+
   <div class="col-md-4">
-    <img id="world-image" src="{{ item.image.url }}" alt="{{ item.name }} image" class="img-fluid" style="padding: 5px;" onclick="enlargeImg()">
+
+        {% include 'partials/_modal-img.html' with title=item.name img=item.image.url slug=item.slug %}
+
   </div>
 
   <div class="col-md-8">
-    <p style="font-size: 1rem; padding: 5px;">{{ item.description }}</p>
+    <p>{{ item.description }}</p>
   </div>
 </div>
 
@@ -112,7 +116,7 @@
                 </form>
                 {% else %}
                 <div class="alert alert-warning" role="alert">
-                  You need to <a href="{% url 'login' %}">log in</a> to leave a comment.
+                  You need to <a href="{% url 'users:login' %}">log in</a> to leave a comment.
                 </div>
                 {% endif %}
               </div>
