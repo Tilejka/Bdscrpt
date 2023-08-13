@@ -22,6 +22,7 @@ class ItemCategory(models.Model):
 class Quality(models.Model):
     name = models.CharField(max_length=128)
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
+    color = models.CharField(max_length=10)
 
     class Meta:
         verbose_name = 'quality'

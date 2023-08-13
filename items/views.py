@@ -1,5 +1,6 @@
 from django.shortcuts import HttpResponseRedirect, get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.urls import reverse
 from django.views.generic.base import TemplateView, View
 from django.views.generic.list import ListView
@@ -98,7 +99,9 @@ def favourite_item(request, item_slug):
     item = get_object_or_404(Item, slug=item_slug)
     if item.favourite.filter(id=request.user.id).exists():
         item.favourite.remove(request.user)
+        messages.info(request, f'Item "{item.name}" removed from favourites.')
     else:
         item.favourite.add(request.user)
+        messages.info(request, f'Item "{item.name}" added to favourites.')
 
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    return redirect(request.META.get('HTTP_REFERER', '/'))

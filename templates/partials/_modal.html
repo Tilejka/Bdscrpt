@@ -1,9 +1,9 @@
-<!-- pass here: title, slug, cont -->
+<!-- pass here: title, slug, content, color -->
 
-<a href="#{{ slug }}" data-toggle="modal"><i class="fas fa-book text-white"></i> {{ title }}</a>
+<a href="#{{ slug }}" data-toggle="modal" style="color: {{ color }};"><i class="fas fa-book text-white"></i> {{ title }}</a>
 
 <div class="modal fade" id="{{ slug }}" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content bg-dark">
       <div class="modal-header">
         <h5 class="modal-title"><i class="fas fa-book text-white"></i> {{ title }}</h5>
