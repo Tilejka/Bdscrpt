@@ -5,173 +5,91 @@
 
 {% block content %}
 
+    <body class="text-white">
 
-<body class="text-white">
+    <div class="container mt-4" style="margin-bottom: 60px;">
+        <div class="row">
+            <div class="col-md-3">
 
-<div class="container mt-4" style="margin-bottom: 60px;">
-  <div class="row">
-    <div class="col-md-3">
+                <div class="filter-section border border-secondary p-3">
+                    <div class="container mt-0">
 
-<div class="filter-section border border-secondary p-3">
-  <div class="container mt-0">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="text-white mt-3 pt-1 border-top">Quality</h5>
+                                <a>
+                                    {% include 'partials/_modal.html' with slug=item.quality.slug color=item.quality.color title=item.quality.name cont=item.quality.description %}
+                                </a>
+                            </div>
+                        </div>
 
-    <div class="row">
-      <div class="col">
-        <h5 class="text-white mt-3 pt-1 border-top">Quality</h5>
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="text-white mt-3 pt-1 border-top">Category</h5>
+                                <a>
+                                    {% include 'partials/_modal.html' with slug=item.category.slug title=item.category.name cont=item.category.description %}
+                                </a>
+                            </div>
+                        </div>
 
-
-        <a>
-          {% include 'partials/_modal.html' with slug=item.quality.slug color=item.quality.color title=item.quality.name cont=item.description %}
-        </a>
-
-
-
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
-        <h5 class="text-white mt-3 pt-1 border-top">Category</h5>
-        <a>
-          {% include 'partials/_modal.html' with slug=item.category.slug title=item.category.name cont=item.category.description %}
-        </a>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
-        <h5 class="text-white mt-3 pt-1 border-top">Favourite</h5>
-        <a href="{% url 'items:favourite_item' item.slug %}">
-          {% if user not in item.favourite.all %}
-            <i class="far fa-heart text-white" style="font-size: 20px;"></i> Add Item
-          {% else %}
-            <i class="fas fa-heart text-white" style="font-size: 20px;"></i> Delete Item
-          {% endif %}
-        </a>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
-        <h5 class="text-white mt-3 pt-1 border-top">Rating</h5>
-        <a>
-          {% render_rating_import %}
-          {% render_rating request=request obj=item settings_slug='default-config' %}
-          {% render_rating_info request=request obj=item settings_slug='default-config' %}
-          {% render_rating_script %}
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
-    </div>
-
-        <div class="col-md-9">
-            <div class="row">
-                <div class="col-md-12 mb-4">
-
-      <div class="card bg-dark text-white">
-        <div class="card-body bg-dark text-light">
-            <div class="row no-gutters">
-                <div class="col-md-12">
-                  <h1 class="text-center">{{ item.name }}</h1>
-                </div>
-            </div>
-
-    <div class="row">
-
-        <div class="col-md-4">
-            {% include 'partials/_modal-img.html' with title=item.name img=item.image.url slug=item.slug %}
-        </div>
-
-    <div class="col-md-8">
-        <p>{{ item.description }}</p>
-    </div>
-
-    </div>
-
-                         <!-- Comment section -->
-
-<hr class="my-3 border-white">
-
-    <div class="d-flex justify-content-between align-items-center">
-        <div>
-            <h6 class="mb-0">Comments ({{ post_comments_count }})</h6>
-            <small class="text-muted">Added {{ item.created_timestamp|date:"H:i:s d M Y" }}
-            | {% get_hit_count for item %} hits</small>
-        </div>
-
-        <div>
-            <button type="button" class="btn btn-outline-primary text-white" data-toggle="collapse"
-            data-target="#commentForm" aria-expanded="false" aria-controls="commentForm">Leave a Comment</button>
-        </div>
-    </div>
-
-    <hr class="my-3">
-
-    <div id="commentForm" class="collapse">
-        {% if user.is_authenticated %}
-        <form method="POST" action="{% url 'items:item' item.slug %}" class="comment-form">
-          {% csrf_token %}
-          <div class="form-group">
-            {{ form.as_p }}
-          </div>
-          <div class="text-center">
-            <button class="btn btn-outline-primary text-white" type="submit">Submit</button>
-          </div>
-        </form>
-        {% else %}
-            <div class="alert alert-warning" role="alert">
-              You need to <a href="{% url 'users:login' %}">log in</a> to leave a comment.
-            </div>
-        {% endif %}
-    </div>
-
-    <div class="media-list mt-4">
-
-    {% for comment in post_comments %}
-
-        <div class="media mb-3">
-
-            <img class="mr-3" width="50" height="50" src="
-            {% if comment.user.image %}
-            {{ comment.user.image.url }}
-            {% else %}
-            {% static 'vendor/img/users/default_avatar.jpg' %}
-            {% endif %}" alt="Avatar">
-
-            <div class="media-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5 class="mt-0">{{ comment.user }}</h5>
-                    </div>
-
-                    <div>
-                        <small class="opacity-70">{{ comment.date|date:"d M Y" }}</small>
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="text-white mt-3 pt-1 border-top">Favourite</h5>
+                                <a href="{% url 'items:favourite_item' item.slug %}">
+                                    {% if user not in item.favourite.all %}
+                                        <i class="far fa-heart text-white" style="font-size: 20px;"></i> Add Item
+                                    {% else %}
+                                        <i class="fas fa-heart text-white" style="font-size: 20px;"></i> Delete Item
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="text-white mt-3 pt-1 border-top">Rating</h5>
+                                <a>
+                                    {% render_rating_import %}
+                                    {% render_rating request=request obj=item settings_slug='default-config' %}
+                                    {% render_rating_info request=request obj=item settings_slug='default-config' %}
+                                    {% render_rating_script %}
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <p>{{ comment.content }}</p>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card bg-dark text-white">
+                            <div class="card-body bg-dark text-light">
+                                <div class="row no-gutters">
+                                    <div class="col-md-12">
+                                        <h1 class="text-center">{{ item.name }}</h1>
+                                    </div>
+                                </div>
 
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        {% include 'partials/_modal-img.html' with title=item.name img=item.image.url slug=item.slug %}
+                                    </div>
+                                    <div class="col-md-8">
+                                        <p>{{ object.description }}</p>
+                                    </div>
+                                </div>
+
+                                {% load comments_tags %}
+                                {% include 'comments/_comment_form.html' %}
+                                {% render_comments_for item request %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <hr class="my-3">
-
-    {% endfor %}
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-    </div>
-  </div>
-
-</body>
+    </body>
 
 {% endblock %}

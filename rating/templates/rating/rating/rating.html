@@ -19,7 +19,7 @@
             {% endif %}
 
             {% for _ in ''|center:settings.rates %}
-                <input type="radio" id="rate-{{ RATING.urlhash }}-{{ forloop.counter }}" name="rating-{{ RATING.urlhash }}" value="{{ forloop.counter }}" class="sr-only" {% if USER_RATE == forloop.counter %}checked{% endif %}/>
+                <input type="radio" id="rate-{{ RATING.urlhash }}-{{ forloop.counter }}" name="rating-{{ RATING.urlhash }}" value="{{ forloop.counter }}" class="sr-only" {% if forloop.counter <= average_rate %}checked{% endif %}/>
                 <label for="rate-{{ RATING.urlhash }}-{{ forloop.counter }}">
                     <img src="{{ settings.icon.url }}" alt="{{ forloop.counter }}" style="height: {{ settings.height }}">
                 </label>

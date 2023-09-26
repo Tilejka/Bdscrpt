@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from items.models import ItemCategory, Item, Quality, Comment
+from items.models import ItemCategory, Item, Quality
 
 
 @admin.register(Item)
@@ -26,6 +26,3 @@ class QualityAdmin(admin.ModelAdmin):
     list_display = ('name', 'id')
     readonly_fields = ('id', )
     prepopulated_fields = {'slug': ('name', )}
-
-
-admin.site.register(Comment)

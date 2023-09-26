@@ -59,7 +59,7 @@ class Sphere(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
     description = models.TextField(null=True, blank=True)
-    image = models.ImageField(upload_to='sphere_images')
+    image = models.ImageField(upload_to='sphere_images', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -102,13 +102,3 @@ class World(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class WComment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField(auto_now_add=True)
-    post = models.ForeignKey(World, on_delete=models.CASCADE)
-    content = models.TextField()
-
-    def __str__(self):
-        return self.user.username

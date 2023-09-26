@@ -23,6 +23,7 @@ class Quality(models.Model):
     name = models.CharField(max_length=128)
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
     color = models.CharField(max_length=10)
+    description = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'quality'
@@ -49,13 +50,3 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField(auto_now_add=True)
-    post = models.ForeignKey('Item', on_delete=models.CASCADE)
-    content = models.TextField()
-
-    def __str__(self):
-        return self.user.username

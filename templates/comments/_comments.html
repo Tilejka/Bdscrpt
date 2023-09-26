@@ -1,0 +1,55 @@
+{% load humanize %}
+{% load static %}
+
+<div class="media-list mt-0">
+
+<div class="media mt mb-3">
+  <h6 class="mb-0">Comments ({{ comments.count }})</h6>
+</div>
+
+<hr class="my-0">
+
+{% for comment in comments %}
+    <div class="media mb-0 mt-2">
+
+        <img class="mr-3 mb-0 mt-0" width="50" height="50" src="
+            {% if comment.user.image %}
+                {{ comment.user.image.url }}
+            {% else %}
+                {% static 'vendor/img/users/default_avatar.jpg' %}
+            {% endif %}" alt="Avatar">
+
+        <div class="media-body mb-0 mt-0">
+        <h6 class="mt-0 mb-0">
+
+        <span class="d-inline-block mb-0 mt-0" style="float: right;">
+            {% if is_staff %}
+                <form method="POST" action="{% url 'comments:delete_comment' comment_id=comment.id %}">
+            {% csrf_token %}
+                <input type="hidden" name="message_id" value="{{ comment.id }}">
+                <button type="submit" class="btn btn-outline-primary text-white">Delete</button>
+                </form>
+            {% endif %}
+        </span>
+
+            <span class="d-inline-block mr-2 mb-0 mt-0">{{ comment.user.username }}</span>
+            <small class="text-muted mb-0 mt-0">{{ comment.created_at|naturaltime }}</small>
+        </h6>
+            <p>{{ comment.text }}</p>
+        </div>
+
+    </div>
+
+    <hr class="my-0">
+
+{% empty %}
+    <hr class="my-0">
+    <div class="media mb-0 mt-0">
+        <div class="media-body mb-0 mt-0">
+            <p>No comments yet.</p>
+        </div>
+    </div>
+    <hr class="my-0">
+{% endfor %}
+
+</div>

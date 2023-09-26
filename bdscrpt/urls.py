@@ -13,6 +13,7 @@ urlpatterns = [
     path('worlds/', include('worlds.urls', namespace='worlds')),
     path('users/', include('users.urls', namespace='users')),
     path('rating/', include('rating.urls')),
+    path('comments/', include('comments.urls', namespace='comments')),
 ]
 
 if settings.DEBUG:

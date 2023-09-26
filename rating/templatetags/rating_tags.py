@@ -20,18 +20,27 @@ def get_object_info(obj):
 
 @register.inclusion_tag('rating/rating/rating.html')
 def render_rating(request, obj, settings_slug):
+    object_info = get_object_info(obj)
+    settings = RatingSettings.objects.get(slug=settings_slug)  # fetch settings
+    # Get or create the rating object
+    rating = Rating.objects.get_or_create(object_id=object_info['object_id'], content_type=object_info['content_type'],
+                                          settings=settings)[0]
+    # Calculate the average rating and round it to the nearest integer
+    average_rate = round(rating.average * settings.rates)
     context = {
         'object': obj,
         'request': request,
-        'settings': RatingSettings.objects.get(slug=settings_slug),
-        'object_info': get_object_info(obj)
+        'settings': settings,
+        'object_info': object_info,
+        'average_rate': average_rate,  # Add the average rating to the context
     }
     return context
 
 
 @register.simple_tag
 def get_rating(object_info, settings):
-    rating = Rating.objects.get_or_create(object_id=object_info['object_id'], content_type=object_info['content_type'], settings=settings)[0]
+    rating = Rating.objects.get_or_create(object_id=object_info['object_id'], content_type=object_info['content_type'],
+                                          settings=settings)[0]
     return rating
 
 
@@ -50,7 +59,9 @@ def render_rating_info(request, obj, settings_slug, custom_template='rating/rati
     settings = RatingSettings.objects.get(slug=settings_slug)
     object_info = get_object_info(obj)
     rating = get_rating(object_info, settings)
-    user_rating = UserRating.objects.get(user=request.user, rating=rating) if request.user.is_authenticated and UserRating.objects.filter(user=request.user, rating=rating).exists() else None
+    user_rating = UserRating.objects.get(user=request.user,
+                                         rating=rating) if request.user.is_authenticated and UserRating.objects.filter(
+        user=request.user, rating=rating).exists() else None
     context = {
         'request': request,
         'template': custom_template,

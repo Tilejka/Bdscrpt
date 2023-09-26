@@ -60,6 +60,21 @@
 
 <div class="row">
     <div class="col">
+        <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">World sphere</h5>
+        {% for w_sphere in world_sphere %}
+            <div class="form-group">
+                <input class="form-check-input" type="checkbox" name="world_sphere" value="{{ w_sphere.slug }}" id="{{ w_sphere.slug }}">
+                <label class="form-check-label custom-checkbox-label" for="{{ w_sphere.slug }}">
+                {{ w_sphere.name }}
+                </label>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col">
         <h5 class="text-white mt-3 pt-1" style="border-top: 1px solid white;">World type</h5>
         {% for world_type in world_types %}
             <div class="form-group">

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from worlds.models import WorldType, DivineRank, Alignment, Domain, WorldGod, World, Sphere, WComment
+from worlds.models import WorldType, DivineRank, Alignment, Domain, WorldGod, World, Sphere
 
 
 @admin.register(Domain)
@@ -55,6 +55,3 @@ class SphereAdmin(admin.ModelAdmin):
     list_display = ('name', 'id')
     readonly_fields = ('id', )
     prepopulated_fields = {'slug': ('name', )}
-
-
-admin.site.register(WComment)

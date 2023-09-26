@@ -22,7 +22,8 @@ class UserRatingCreate(View, LoginRequiredMixin):
             settings_slug = data.get('settings_slug', None)
             rating_settings = RatingSettings.objects.get(slug=settings_slug)
 
-            rating = Rating.objects.get_or_create(object_id=object_id, content_type=content_type, settings=rating_settings)[0]
+            rating = \
+            Rating.objects.get_or_create(object_id=object_id, content_type=content_type, settings=rating_settings)[0]
             rate = int(data.get('rate', None))
             if UserRating.objects.filter(user=request.user, rating=rating).exists():
                 user_rating = UserRating.objects.get(user=request.user, rating=rating)
@@ -50,7 +51,8 @@ class UserRatingCreate(View, LoginRequiredMixin):
 class RatingInfo(View, LoginRequiredMixin):
     def get(self, request, urlhash, *args, **kwargs):
         rating = Rating.objects.get(urlhash=urlhash)
-        user_rating = UserRating.objects.get(user=request.user, rating=rating) if UserRating.objects.filter(user=request.user, rating=rating).exists() else None
+        user_rating = UserRating.objects.get(user=request.user, rating=rating) if UserRating.objects.filter(
+            user=request.user, rating=rating).exists() else None
         custom_template = request.GET.get('custom_template', None)
         context = {
             'request': request,

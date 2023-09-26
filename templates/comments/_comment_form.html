@@ -1,0 +1,72 @@
+{% load static %}
+{% load hitcount_tags %}
+{% load rating_tags %}
+
+<hr class="my-3 border-white">
+
+<div class="d-flex justify-content-between align-items-center">
+
+    <div>
+      <small class="text-muted">Added {{ object.created_timestamp|date:"H:i:s d M Y" }}
+        | {% get_hit_count for object %} hits</small>
+    </div>
+
+    <div>
+      <button type="button" class="btn btn-outline-primary text-white" data-toggle="collapse"
+        data-target="#commentForm" aria-expanded="false" aria-controls="commentForm">Leave a Comment</button>
+    </div>
+
+</div>
+
+<div id="commentForm" class="collapse">
+    {% if user.is_authenticated %}
+    <form method="POST" action="{% url 'comments:comment_create' %}" class="comment-form">
+        {% csrf_token %}
+        {% load helpers %}
+        <div class="form-group">
+            {% with object|content_type as ctype %}
+            <input type="hidden" name="content_type" value="{{ ctype.pk }}">
+            {% endwith %}
+            <input type="hidden" name="object_id" value="{{ object.id }}">
+            <label for="content">Comment:</label>
+            <textarea class="form-control" id="content" name="content" rows="4" maxlength="300" oninput="updateCharCount()"></textarea>
+            <small id="charCount" class="text-muted">300 characters remaining</small>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-outline-primary text-white" type="submit">Submit</button>
+        </div>
+    </form>
+    {% else %}
+    <div class="text-center">
+        You need to <a href="{% url 'users:login' %}">log in</a> to leave a comment.
+    </div>
+    {% endif %}
+    <hr>
+</div>
+
+<script>
+function updateCharCount() {
+    const textarea = document.getElementById("content");
+    const charCount = document.getElementById("charCount");
+    const maxLength = 300;
+    const remainingChars = maxLength - textarea.value.length;
+    charCount.textContent = remainingChars + " characters remaining";
+}
+</script>
+
+
+
+{#<form method="POST" action="{% url 'comments:comment_create' %}">#}
+{#    {% csrf_token %}#}
+{##}
+{#    {% load helpers %}#}
+{#    {% with object|content_type as ctype %}#}
+{#        <input type="hidden" name="content_type" value="{{ ctype.pk }}">#}
+{#    {% endwith %}#}
+{##}
+{#    <input type="hidden" name="object_id" value="{{ object.id }}">#}
+{#    <label for="content">Comment:</label><br>#}
+{#    <textarea id="content" name="content" rows="4" cols="50"></textarea><br><br>#}
+{#    <button type="submit">Submit</button>#}
+{##}
+{#</form>#}
